@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const bcrypt = require('bcryptjs');
-const { authenticate } = require('./middlewares');
+const { authenticate, createToken } = require('./middlewares');
 
 const db = require('../database/dbConfig.js');
 
@@ -14,7 +14,25 @@ module.exports = server => {
 function register(req, res) {
   // implement user registration
 
+  // hash password prior to storage
+
   const credentials = req.body;
+  const hash = bcrypt.hashSync(credentials.password, 14);
+  credentials.password = hash;
+
+  db('users')
+    .insert(credentials)
+    .then(ids => {
+      const id = ids[0];
+      db('users')
+        .where({ id })
+        .first()
+        .then(user => {
+          const token = createToken(user);
+          res.status(201).json({ id: user.id, username: user.username, token }); // only returning token for testing purposes, this seems like a generally bad idea
+        })
+        .catch(err => res.status(500).json(err.message));
+    });
 }
 
 function login(req, res) {
