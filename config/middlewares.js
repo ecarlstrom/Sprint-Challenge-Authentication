@@ -10,8 +10,6 @@ module.exports = {
 
 // adding a jwt secret and token generation function for authentication
 
-const jwtSecret = 'SUPER SECRET KEY';
-
 function createToken(user) {
 
   const jwtPayload = {
@@ -23,7 +21,7 @@ function createToken(user) {
     jwtid: '123'
   };
 
-  return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+  return jwt.sign(jwtPayload, jwtKey, jwtOptions);
 };
 
 // implementation details

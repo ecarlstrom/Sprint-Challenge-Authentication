@@ -53,6 +53,9 @@ function login(req, res) {
     .catch(err => res.status(500).json(err.message)); // for non-credential errors
 }
 
+// token properly generated: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkV2YW4iLCJpYXQiOjE1Mzk5NjU0MzksImV4cCI6MTUzOTk2NzIzOSwianRpIjoiMTIzIn0.1T5Np_ZFVf-DRt_tSwmDsSxBAguVoP1Dgb7CFgSReig
+// again, would never actually put the token into a code file, just for testing and commit purposes
+
 function getJokes(req, res) {
   axios
     .get(
