@@ -37,6 +37,20 @@ function register(req, res) {
 
 function login(req, res) {
   // implement user login
+
+  const credentials = req.body;
+  db('users')
+    .where({ username: credentials.username })
+    .first()
+    .then(user => {
+      if (user && bcrypt.compareSync(credentials.password, user.password)) {
+        const token = createToken(user);
+        res.status(200).json({ token }); // create token on successful login
+      } else {
+        res.status(401).json({ error: 'Username or password is invalid.' });
+      }
+    })
+    .catch(err => res.status(500).json(err.message)); // for non-credential errors
 }
 
 function getJokes(req, res) {
