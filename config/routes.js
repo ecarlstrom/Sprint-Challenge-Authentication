@@ -1,6 +1,9 @@
 const axios = require('axios');
 
+const bcrypt = require('bcryptjs');
 const { authenticate } = require('./middlewares');
+
+const db = require('../database/dbConfig.js');
 
 module.exports = server => {
   server.post('/api/register', register);
@@ -10,6 +13,8 @@ module.exports = server => {
 
 function register(req, res) {
   // implement user registration
+
+  const credentials = req.body;
 }
 
 function login(req, res) {
